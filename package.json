@@ -6,8 +6,8 @@
   "author": "Mateusz Krawczyk <matrix0123456789@tlen.pl>",
   "license": "MIT",
   "devDependencies": {
-    "fast-check": "^1.13.0",
-    "mocha": "^6.1.2"
+    "fast-check": "^1.16.0",
+    "mocha": "^6.2.0"
   },
   "scripts": {
     "test": "mocha tests"

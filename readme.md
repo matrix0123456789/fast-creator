@@ -1,3 +1,8 @@
+[![npm](https://badgen.net/npm/v/fast-creator)](https://www.npmjs.com/package/fast-creator)
+[![downloads](https://badgen.net/npm/dt/fast-creator)](https://www.npmjs.com/package/fast-creator)
+[![downloads](https://badgen.net/npm/license/fast-creator)](https://www.npmjs.com/package/fast-creator)
+[![downloads](https://badgen.net/npm/dependents/fast-creator)](https://www.npmjs.com/package/fast-creator)
+
 This library reduces amount of code needed to create dom (html) element
 #samples
 

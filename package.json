@@ -1,6 +1,6 @@
 {
   "name": "fast-creator",
-  "version": "1.4.0",
+  "version": "1.0.0",
   "description": "Fast Creator",
   "main": "entry.js",
   "author": "Mateusz Krawczyk <matrix0123456789@tlen.pl>",

@@ -1,6 +1,7 @@
 /**
  *
  * @param attributes
+ * @param documentObject
  * @returns {HTMLElement}
  */
 function createFromDefinition(attributes = {}, documentObject = null) {
@@ -20,7 +21,7 @@ function createFromDefinition(attributes = {}, documentObject = null) {
         } else if (attrName === 'data') {
             Object.assign(element.dataset, attributes.data);
         } else if (attrName === 'children') {
-            attributes.children.forEach(x => element.appendChild(create(x,{}, documentObject)));
+            attributes.children.forEach(x => element.appendChild(create(x, {}, documentObject)));
         } else if (attrName === 'tagName') {
             //nothing
         } else {
@@ -99,7 +100,7 @@ function parseSelector(selector) {
  *
  * @param {string} selector
  * @param {object} attributes
- * @param [Document} documentObject
+ * @param documentObject
  * @returns {HTMLElement}
  */
 function create(selector = "", attributes = {}, documentObject = null) {

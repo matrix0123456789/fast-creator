@@ -2,6 +2,7 @@
 [![downloads](https://badgen.net/npm/dt/fast-creator)](https://www.npmjs.com/package/fast-creator)
 [![downloads](https://badgen.net/npm/license/fast-creator)](https://www.npmjs.com/package/fast-creator)
 [![downloads](https://badgen.net/npm/dependents/fast-creator)](https://www.npmjs.com/package/fast-creator)
+![Test](https://github.com/matrix0123456789/fast-creator/workflows/Test/badge.svg)
 
 This library reduces amount of code needed to create dom (html) element
 #samples

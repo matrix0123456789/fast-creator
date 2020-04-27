@@ -1,4 +1,4 @@
-const entry = require('../entry');
+const entry = require('../src/entry');
 const fc = require('fast-check');
 const assert = require('assert');
 

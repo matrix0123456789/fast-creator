@@ -58,7 +58,7 @@ function createFromDefinition() {
       Object.assign(element.dataset, attributes.data);
     } else if (attrName === 'children') {
       attributes.children.forEach(function (x) {
-        return element.appendChild(create(x, {}, documentObject));
+        return element.appendChild(x instanceof Node ? x : create(x, {}, documentObject));
       });
     } else if (attrName === 'tagName') {//nothing
     } else {

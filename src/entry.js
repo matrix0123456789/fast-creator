@@ -21,7 +21,7 @@ function createFromDefinition(attributes = {}, documentObject = null) {
         } else if (attrName === 'data') {
             Object.assign(element.dataset, attributes.data);
         } else if (attrName === 'children') {
-            attributes.children.forEach(x => element.appendChild(create(x, {}, documentObject)));
+            attributes.children.forEach(x => element.appendChild(x instanceof Node ? x : create(x, {}, documentObject)));
         } else if (attrName === 'tagName') {
             //nothing
         } else {

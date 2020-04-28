@@ -19,14 +19,11 @@ jobs:
     name: npm-publish
     runs-on: ubuntu-latest
     steps:
-      - run: ls .
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: pwd
-      - run: ls .
-      - run: ls ./node_modules/
+      - run: yarn
       - run: yarn build
       - name: Publish if version has been updated
         uses: pascalgn/npm-publish-action@51fdb4531e99aac1873764ef7271af448dc42ab4

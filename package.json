@@ -1,6 +1,6 @@
 {
   "name": "fast-creator",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Fast Creator",
   "main": "dist/entry.js",
   "author": "Mateusz Krawczyk <matrix0123456789@tlen.pl>",
@@ -20,6 +20,6 @@
   },
   "scripts": {
     "test": "mocha tests --require @babel/register",
-    "build": "./node_modules/@babel/cli/bin/babel.js src -d dist"
+    "build": "babel src -d dist"
   }
 }

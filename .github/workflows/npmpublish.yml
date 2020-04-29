@@ -25,5 +25,5 @@ jobs:
           node-version: 12
       - run: yarn
       - run: yarn build
-      - run:
+      - run: yarn publish
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings

@@ -1,6 +1,6 @@
 {
   "name": "fast-creator",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Fast Creator",
   "main": "dist/entry.js",
   "author": "Mateusz Krawczyk <matrix0123456789@tlen.pl>",

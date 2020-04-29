@@ -25,6 +25,13 @@ jobs:
           node-version: 12
       - run: yarn
       - run: yarn build
+      - run: echo ${{ secrets.NPM_AUTH_TOKEN }}
+      - run: echo ${{ secrets.GITHUB_TOKEN }}
+      - run: yarn publish
+        env: # More info about the environment variables in the README
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
       - name: Publish if version has been updated
         uses: pascalgn/npm-publish-action@51fdb4531e99aac1873764ef7271af448dc42ab4
         with: # All of theses inputs are optional

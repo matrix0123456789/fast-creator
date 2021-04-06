@@ -60,6 +60,8 @@ function createFromDefinition() {
       attributes.children.forEach(function (x) {
         return element.appendChild(x instanceof Node ? x : create(x, {}, documentObject));
       });
+    } else if (attrName.startsWith('on')) {
+      element[attrName] = attributes[attrName];
     } else if (attrName === 'tagName') {//nothing
     } else {
       element.setAttribute(attrName, attributes[attrName]);

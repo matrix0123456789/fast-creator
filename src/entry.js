@@ -27,7 +27,10 @@ function createFromDefinition(attributes = {}, documentObject = null) {
         } else if (attrName === 'tagName') {
             //nothing
         } else {
-            element.setAttribute(attrName, attributes[attrName]);
+            if (attributes[attrName] === true)
+                element.setAttribute(attrName, attrName);
+            else if (attributes[attrName] !== false)
+                element.setAttribute(attrName, attributes[attrName]);
         }
     }
     return element;

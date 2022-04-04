@@ -24,6 +24,14 @@ function createFromDefinition(attributes = {}, documentObject = null) {
             attributes.children.forEach(x => element.appendChild(x instanceof Node ? x : create(x, {}, documentObject)));
         } else if (attrName.startsWith('on')) {
             element[attrName] = attributes[attrName];
+        } else if (attrName.startsWith('style')) {
+            if (typeof (attributes[attrName]) == "object") {
+                for (const styleName in attributes[attrName]) {
+                    element.style.setProperty(styleName, attributes[attrName][styleName])
+                }
+            } else if (attributes[attrName] !== false) {
+                element.setAttribute(attrName, attributes[attrName]);
+            }
         } else if (attrName === 'tagName') {
             //nothing
         } else {

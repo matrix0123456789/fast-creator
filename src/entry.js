@@ -171,10 +171,10 @@ function create(...params) {
     let definition = {};
     let documentObject = null;
     if (typeof (params[0]) == "string")
-        definition = mergeObjects(definition, parseSelector(params.pop()));
+        definition = mergeObjects(definition, parseSelector(params.splice(0,1)[0]));
 
     if (typeof (params[0]) == "object" && !(params[0] instanceof Node))
-        definition = mergeObjects(definition, params.pop());
+        definition = mergeObjects(definition, params.splice(0,1)[0]);
 
     for (let param of params) {
         if (param instanceof Document) {

@@ -220,8 +220,8 @@ function create() {
     params[_key] = arguments[_key];
   }
 
-  if (typeof params[0] == "string") definition = mergeObjects(definition, parseSelector(params.pop()));
-  if (_typeof(params[0]) == "object" && !(params[0] instanceof Node)) definition = mergeObjects(definition, params.pop());
+  if (typeof params[0] == "string") definition = mergeObjects(definition, parseSelector(params.splice(0, 1)[0]));
+  if (_typeof(params[0]) == "object" && !(params[0] instanceof Node)) definition = mergeObjects(definition, params.splice(0, 1)[0]);
 
   for (var _i = 0, _params = params; _i < _params.length; _i++) {
     var param = _params[_i];

@@ -112,9 +112,33 @@ function parseSelector(selector) {
       } else if (_char === '.') {
         if (!ret.classList) ret.classList = [];
         ret.classList.push(parseText());
+      } else if (_char === '[') {
+        var attrName = parseText(['=', ']']);
+        skipWhitespace();
+
+        if (selector[position] == '=') {
+          position++;
+          skipWhitespace();
+          if (selector[position] != '"') throw new Error("Syntax error in position " + position);
+          position++;
+          var value = parseAttributeValue();
+          skipWhitespace();
+          if (selector[position] != '"') throw new Error("Syntax error in position " + position);
+          position++;
+          skipWhitespace();
+          if (selector[position] != ']') throw new Error("Syntax error in position " + position);
+          position++;
+          ret[attrName] = value;
+        } else if (selector[position] == ']') {
+          position++;
+          ret[attrName] = true;
+        } else {
+          throw new Error("Syntax error in position " + position);
+        }
       } else if (/\s/.test(_char)) {
         while (position < selector.length && /\s/.test(selector[position])) {
           position++;
+          skipWhitespace();
         }
 
         ret.children = [parseElement()];
@@ -131,8 +155,8 @@ function parseSelector(selector) {
   }
 
   function parseText() {
+    var escape = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['.', '#', ',', '['];
     var text = '';
-    var escape = ['.', '#', ','];
 
     while (position < selector.length) {
       var _char2 = selector[position];
@@ -148,6 +172,35 @@ function parseSelector(selector) {
     return text;
   }
 
+  function parseAttributeValue() {
+    var text = '';
+
+    while (position < selector.length) {
+      var _char3 = selector[position];
+
+      if (_char3 == '"') {
+        return text;
+      } else {
+        text += _char3;
+        position++;
+      }
+    }
+
+    return text;
+  }
+
+  function skipWhitespace() {
+    while (position < selector.length) {
+      var _char4 = selector[position];
+
+      if (!/\s/.test(_char4)) {
+        return;
+      } else {
+        position++;
+      }
+    }
+  }
+
   if (selector === "") return {};else return parseElement();
 }
 /**
@@ -160,12 +213,28 @@ function parseSelector(selector) {
 
 
 function create() {
-  var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-  var attributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var documentObject = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var definition;
-  if (typeof selector == "string") definition = mergeObjects(parseSelector(selector), attributes);else definition = selector;
-  if (attributes instanceof Document) documentObject = attributes;
+  var definition = {};
+  var documentObject = null;
+
+  for (var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++) {
+    params[_key] = arguments[_key];
+  }
+
+  if (typeof params[0] == "string") definition = mergeObjects(definition, parseSelector(params.pop()));
+  if (_typeof(params[0]) == "object" && !(params[0] instanceof Node)) definition = mergeObjects(definition, params.pop());
+
+  for (var _i = 0, _params = params; _i < _params.length; _i++) {
+    var param = _params[_i];
+
+    if (param instanceof Document) {
+      documentObject = param;
+    } else if (param instanceof Node) {
+      documentObject = param.ownerDocument;
+      if (!definition.children) definition.children = [];
+      definition.children.push(param);
+    }
+  }
+
   return createFromDefinition(definition, documentObject);
 }
 

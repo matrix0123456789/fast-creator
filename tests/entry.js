@@ -13,6 +13,8 @@ describe('parseSelector', () => {
         assert.deepEqual(entry.parseSelector('#span'), {id: 'span'});
         assert.deepEqual(entry.parseSelector('div#id.a.b.c'), {id: 'id', tagName: 'div', classList: ['a', 'b', 'c']});
         assert.deepEqual(entry.parseSelector('p a'), {tagName: 'p', children: [{tagName: 'a'}]});
+        assert.deepEqual(entry.parseSelector('textarea[disabled]'), {tagName: 'textarea', disabled: true});
+        assert.deepEqual(entry.parseSelector('img[alt="test"]'), {tagName: 'img', alt: 'test'});
 
     });
 });

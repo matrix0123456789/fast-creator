@@ -72,9 +72,36 @@ function parseSelector(selector) {
             } else if (char === '.') {
                 if (!ret.classList) ret.classList = [];
                 ret.classList.push(parseText());
+            } else if (char === '[') {
+                let attrName = parseText(['=', ']']);
+                skipWhitespace();
+                if (selector[position] == '=') {
+                    position++;
+                    skipWhitespace();
+                    if (selector[position] != '"')
+                        throw new Error("Syntax error in position " + position);
+                    position++;
+                    let value = parseAttributeValue();
+                    skipWhitespace();
+                    if (selector[position] != '"')
+                        throw new Error("Syntax error in position " + position);
+                    position++;
+                    skipWhitespace();
+                    if (selector[position] != ']')
+                        throw new Error("Syntax error in position " + position);
+                    position++;
+                    ret[attrName] = value;
+                } else if (selector[position] == ']') {
+                    position++;
+                    ret[attrName] = true;
+                } else {
+                    throw new Error("Syntax error in position " + position);
+                }
+
             } else if (/\s/.test(char)) {
                 while (position < selector.length && /\s/.test(selector[position])) {
                     position++;
+                    skipWhitespace();
                 }
                 ret.children = [parseElement()];
 
@@ -89,9 +116,8 @@ function parseSelector(selector) {
 
     }
 
-    function parseText() {
+    function parseText(escape = ['.', '#', ',', '[']) {
         let text = '';
-        const escape = ['.', '#', ','];
         while (position < selector.length) {
             let char = selector[position];
             if (/\s/.test(char) || escape.includes(char)) {
@@ -102,6 +128,31 @@ function parseSelector(selector) {
             }
         }
         return text;
+    }
+
+    function parseAttributeValue() {
+        let text = '';
+        while (position < selector.length) {
+            let char = selector[position];
+            if (char == '"') {
+                return text
+            } else {
+                text += char;
+                position++;
+            }
+        }
+        return text;
+    }
+
+    function skipWhitespace() {
+        while (position < selector.length) {
+            let char = selector[position];
+            if (!/\s/.test(char)) {
+                return
+            } else {
+                position++;
+            }
+        }
     }
 
     if (selector === "") return {};
@@ -116,15 +167,25 @@ function parseSelector(selector) {
  * @param documentObject
  * @returns {HTMLElement}
  */
-function create(selector = "", attributes = {}, documentObject = null) {
-    let definition;
-    if (typeof (selector) == "string")
-        definition = mergeObjects(parseSelector(selector), attributes);
-    else
-        definition = selector;
+function create(...params) {
+    let definition = {};
+    let documentObject = null;
+    if (typeof (params[0]) == "string")
+        definition = mergeObjects(definition, parseSelector(params.pop()));
 
-    if (attributes instanceof Document)
-        documentObject = attributes;
+    if (typeof (params[0]) == "object" && !(params[0] instanceof Node))
+        definition = mergeObjects(definition, params.pop());
+
+    for (let param of params) {
+        if (param instanceof Document) {
+            documentObject = param;
+        } else if (param instanceof Node) {
+            documentObject = param.ownerDocument
+            if (!definition.children)
+                definition.children = [];
+            definition.children.push(param);
+        }
+    }
     return createFromDefinition(definition, documentObject);
 }
 
